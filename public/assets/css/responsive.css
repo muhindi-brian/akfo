@@ -1,0 +1,283 @@
+/* ── AKFO responsive system ── */
+
+/* Prevent horizontal overflow sitewide */
+html {
+    overflow-x: clip;
+}
+
+/* iOS input zoom fix — keep form fields at 16px+ on mobile */
+@media (max-width: 767px) {
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
+}
+
+/* Section padding scale */
+@media (max-width: 767px) {
+    .py-section-padding {
+        padding-top: 72px;
+        padding-bottom: 72px;
+    }
+}
+
+@media (max-width: 479px) {
+    .py-section-padding {
+        padding-top: 56px;
+        padding-bottom: 56px;
+    }
+}
+
+/* ── Typography scaling (pages missing mobile display classes) ── */
+@media (max-width: 767px) {
+    .text-display-lg {
+        font-size: 40px !important;
+        line-height: 48px !important;
+    }
+
+    .text-headline-lg {
+        font-size: 32px !important;
+        line-height: 40px !important;
+    }
+
+    .text-stats-lg {
+        font-size: 36px !important;
+        line-height: 44px !important;
+    }
+}
+
+@media (max-width: 479px) {
+    .text-display-lg,
+    .text-display-lg-mobile {
+        font-size: 32px !important;
+        line-height: 40px !important;
+    }
+
+    .text-headline-lg,
+    .text-headline-lg-mobile {
+        font-size: 28px !important;
+        line-height: 36px !important;
+    }
+
+    .text-stats-lg {
+        font-size: 28px !important;
+        line-height: 36px !important;
+    }
+}
+
+/* ── Header: compact on small screens ── */
+@media (max-width: 767px) {
+    .site-header {
+        height: 64px;
+    }
+
+    .site-header .site-logo-text {
+        font-size: 16px;
+        line-height: 22px;
+        max-width: 9.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .site-header .header-donate {
+        padding: 0.5rem 0.875rem;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 379px) {
+    .site-header .header-donate {
+        display: none;
+    }
+}
+
+/* ── Hero sections: flexible heights ── */
+@media (max-width: 767px) {
+    .akfo-hero {
+        min-height: 420px;
+        height: auto;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    .akfo-hero--tall {
+        min-height: 520px;
+    }
+
+    .akfo-hero--contact {
+        min-height: 320px;
+        height: 45vh;
+    }
+}
+
+@media (max-width: 479px) {
+    .akfo-hero {
+        min-height: 360px;
+    }
+
+    .akfo-hero--tall {
+        min-height: 440px;
+    }
+
+    .akfo-hero--contact {
+        min-height: 280px;
+        height: 40vh;
+    }
+}
+
+/* ── Card / media blocks ── */
+@media (max-width: 767px) {
+    .akfo-card-tall {
+        height: auto;
+        min-height: 280px;
+    }
+
+    .akfo-bento-grid {
+        height: auto !important;
+        min-height: 0;
+    }
+
+    .akfo-stats-grid {
+        gap: 1.5rem;
+    }
+}
+
+/* ── Floating offset cards (about page) ── */
+@media (max-width: 1023px) {
+    .akfo-float-card {
+        position: static;
+        margin-top: 1.5rem;
+        max-width: 100%;
+    }
+}
+
+/* ── Grids that stack on mobile ── */
+@media (max-width: 767px) {
+    .akfo-split-stack {
+        flex-direction: column;
+    }
+
+    .akfo-split-stack > * {
+        width: 100% !important;
+    }
+
+    .akfo-mobile-center {
+        text-align: center;
+    }
+
+    .akfo-mobile-center .flex {
+        justify-content: center;
+    }
+}
+
+/* ── Horizontal scroll rows ── */
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .akfo-scroll-row {
+        padding-bottom: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* ── Touch targets ── */
+@media (max-width: 767px) {
+    button,
+    [type="submit"],
+    a.btn-press,
+    .mobile-menu__panel a {
+        min-height: 44px;
+    }
+}
+
+/* ── Footer ── */
+@media (max-width: 767px) {
+    footer .grid {
+        text-align: center;
+    }
+
+    footer .flex.gap-4 {
+        justify-content: center;
+    }
+
+    footer .md\\:col-span-1 a {
+        display: inline-block;
+    }
+}
+
+/* ── Forms: full-width actions on mobile ── */
+@media (max-width: 639px) {
+    .akfo-form-actions {
+        flex-direction: column;
+    }
+
+    .akfo-form-actions > * {
+        width: 100%;
+    }
+}
+
+/* ── Decorative blurs: reduce on mobile for performance ── */
+@media (max-width: 767px) {
+    .akfo-decor-blur {
+        display: none;
+    }
+}
+
+/* ── Sticky sidebar offsets ── */
+@media (max-width: 1023px) {
+    .sticky.top-28,
+    .sticky.top-32 {
+        position: static;
+    }
+}
+
+/* ── Impact / program stat rows ── */
+@media (max-width: 639px) {
+    .akfo-stat-row {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 1rem;
+    }
+}
+
+/* ── Legal & error pages ── */
+@media (max-width: 767px) {
+    .akfo-prose-page {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+    }
+}
+
+/* ── CTA banners ── */
+@media (max-width: 767px) {
+    .akfo-cta-banner {
+        padding: 2.5rem 1.5rem !important;
+        border-radius: 1.5rem !important;
+    }
+}
+
+/* ── Gallery / aspect blocks ── */
+@media (max-width: 767px) {
+    .akfo-aspect-hero {
+        height: 45vh;
+        min-height: 260px;
+    }
+}
+
+/* Reduced motion (keep in sync with motion.css) */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}

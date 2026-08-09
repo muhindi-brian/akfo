@@ -1,0 +1,163 @@
+/* Motion system — Emil Kowalski design engineering tokens */
+
+/* ── Press feedback (buttons, submit inputs, CTA links) ── */
+button:not(:disabled),
+[type="submit"]:not(:disabled),
+a.btn-press,
+.btn-press {
+    transition: transform var(--duration-press) var(--ease-out),
+                background-color var(--duration-fast) var(--ease),
+                color var(--duration-fast) var(--ease),
+                box-shadow var(--duration-fast) var(--ease-out);
+}
+
+button:not(:disabled):active,
+[type="submit"]:not(:disabled):active,
+a.btn-press:active,
+.btn-press:active {
+    transform: scale(0.97);
+}
+
+/* ── Hover-gated lift (cards, tiles) ── */
+@media (hover: hover) and (pointer: fine) {
+    .hover-lift {
+        transition: transform var(--duration-ui) var(--ease-out),
+                    box-shadow var(--duration-ui) var(--ease-out);
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .impact-card-hover {
+        transition: transform var(--duration-ui) var(--ease-out),
+                    box-shadow var(--duration-ui) var(--ease-out);
+    }
+
+    .impact-card-hover:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-hover);
+    }
+}
+
+/* ── Link & color transitions ── */
+a {
+    transition: color var(--duration-fast) var(--ease);
+}
+
+/* ── Form focus transitions ── */
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+    transition: border-color var(--duration-fast) var(--ease-out),
+                background-color var(--duration-fast) var(--ease),
+                box-shadow var(--duration-fast) var(--ease-out);
+}
+
+/* ── Hero / marketing entrance (rare, first-view) ── */
+@keyframes motion-fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: motion-fade-in-up var(--duration-marketing) var(--ease-out) both;
+}
+
+/* ── Scroll reveal (marketing sections, occasional) ── */
+.motion-reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+        opacity var(--duration-marketing) var(--ease-out),
+        transform var(--duration-marketing) var(--ease-out);
+    transition-delay: var(--motion-delay, 0ms);
+}
+
+.motion-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── Alert / toast entrance (occasional, @starting-style) ── */
+.motion-alert {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+        opacity var(--duration-modal) var(--ease-out),
+        transform var(--duration-modal) var(--ease-out);
+
+    @starting-style {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+}
+
+/* ── Accordion chevron (state indication) ── */
+details summary .material-symbols-outlined,
+details .group-open\:rotate-180 {
+    transition: transform var(--duration-fast) var(--ease-out);
+}
+
+/* ── Icon slide on hover (CTA arrows, tens/day — subtle) ── */
+@media (hover: hover) and (pointer: fine) {
+    .group:hover .group-hover\:translate-x-1 {
+        transform: translateX(4px);
+        transition: transform var(--duration-press) var(--ease-out);
+    }
+}
+
+/* ── Image zoom on card hover (decorative, gated) ── */
+@media (hover: hover) and (pointer: fine) {
+    .group:hover img[class*="group-hover:scale"],
+    .group:hover [class*="group-hover:scale-105"] {
+        transition: transform var(--duration-marketing) var(--ease-out);
+    }
+}
+
+/* ── Reduced motion: gentler, not zero ── */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    .motion-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .animate-fade-in-up {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    button:not(:disabled):active,
+    [type="submit"]:not(:disabled):active,
+    .btn-press:active {
+        transform: none;
+    }
+
+    .motion-alert {
+        @starting-style {
+            opacity: 1;
+            transform: none;
+        }
+    }
+}

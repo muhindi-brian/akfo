@@ -1,0 +1,41 @@
+.site-header {
+    transition:
+        background-color var(--duration-ui) var(--ease-out),
+        box-shadow var(--duration-ui) var(--ease-out);
+}
+
+.site-header.is-scrolled {
+    background: rgba(255, 255, 255, 0.92) !important;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.mobile-menu__backdrop {
+    transition: opacity var(--duration-ui) var(--ease-out);
+}
+
+.mobile-menu__panel {
+    transition: transform var(--duration-drawer) var(--ease-drawer);
+}
+
+.mobile-menu.is-open {
+    pointer-events: auto;
+}
+
+.mobile-menu.is-open .mobile-menu__backdrop {
+    opacity: 1;
+}
+
+.mobile-menu.is-open .mobile-menu__panel {
+    transform: translateX(0);
+}
+
+body.mobile-menu-open {
+    overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mobile-menu__backdrop,
+    .mobile-menu__panel {
+        transition: none;
+    }
+}

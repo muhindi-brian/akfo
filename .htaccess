@@ -1,0 +1,74 @@
+# Agnes Kagure Foundation — Apache rewrite rules
+# Works at domain root (agneskagurefoundation.org) and in a subdirectory (localhost/XAMPP).
+# Requires: mod_rewrite, AllowOverride All
+# Set APP_URL in .env per environment (see .env.example).
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # -------------------------------------------------------------------------
+    # Production-only: HTTPS + canonical host (skipped on localhost)
+    # -------------------------------------------------------------------------
+    RewriteCond %{HTTP_HOST} ^(www\.)?agneskagurefoundation\.org$ [NC]
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ https://agneskagurefoundation.org%{REQUEST_URI} [L,R=301]
+
+    RewriteCond %{HTTP_HOST} ^www\.agneskagurefoundation\.org$ [NC]
+    RewriteRule ^ https://agneskagurefoundation.org%{REQUEST_URI} [L,R=301]
+
+    # -------------------------------------------------------------------------
+    # Clean URLs: hide /public if someone hits it directly
+    # (relative target keeps the current subdirectory prefix on localhost)
+    # -------------------------------------------------------------------------
+    RewriteRule ^public/(.*)$ $1 [L,R=301]
+
+    # -------------------------------------------------------------------------
+    # Static assets live under public/ but URLs stay /assets/...
+    # -------------------------------------------------------------------------
+    RewriteRule ^assets/(.*)$ public/assets/$1 [L]
+    RewriteRule ^uploads/(.*)$ public/uploads/$1 [L]
+
+    # -------------------------------------------------------------------------
+    # Block direct web access to application internals
+    # -------------------------------------------------------------------------
+    RewriteRule ^(?:app|bootstrap|config|resources|routes|storage|scripts|google_stitch|vendor)(?:/|$) - [F,L]
+
+    # -------------------------------------------------------------------------
+    # Front controller — all other requests go to index.php
+    # (no RewriteBase needed; rules are relative to this directory)
+    # -------------------------------------------------------------------------
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Deny access to sensitive files
+<FilesMatch "^(\.env|\.env\.|composer\.(json|lock)|package\.json)$">
+    Require all denied
+</FilesMatch>
+
+# Cache static assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# Gzip compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# Security headers (Apache; PHP also sets some in public/index.php)
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+Options -Indexes
