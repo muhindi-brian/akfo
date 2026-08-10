@@ -7,12 +7,10 @@
     RewriteEngine On
 
     # -------------------------------------------------------------------------
-    # Production-only: HTTPS + canonical host (skipped on localhost)
+    # Production-only: canonical host (www → apex)
+    # SSL/HTTPS is handled by your host (cPanel AutoSSL) or Cloudflare — do NOT
+    # force HTTPS here; behind a proxy Apache often sees HTTP and loops forever.
     # -------------------------------------------------------------------------
-    RewriteCond %{HTTP_HOST} ^(www\.)?agneskagurefoundation\.org$ [NC]
-    RewriteCond %{HTTPS} !=on
-    RewriteRule ^ https://agneskagurefoundation.org%{REQUEST_URI} [L,R=301]
-
     RewriteCond %{HTTP_HOST} ^www\.agneskagurefoundation\.org$ [NC]
     RewriteRule ^ https://agneskagurefoundation.org%{REQUEST_URI} [L,R=301]
 

@@ -5,11 +5,7 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Production-only: HTTPS + canonical host
-    RewriteCond %{HTTP_HOST} ^(www\.)?agneskagurefoundation\.org$ [NC]
-    RewriteCond %{HTTPS} !=on
-    RewriteRule ^ https://agneskagurefoundation.org%{REQUEST_URI} [L,R=301]
-
+    # Canonical www → apex (production). HTTPS: use cPanel/Cloudflare, not here.
     RewriteCond %{HTTP_HOST} ^www\.agneskagurefoundation\.org$ [NC]
     RewriteRule ^ https://agneskagurefoundation.org%{REQUEST_URI} [L,R=301]
 
