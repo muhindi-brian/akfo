@@ -6,7 +6,7 @@ return [
     [
         'slug' => 'gbv-campaign-nairobi-2024',
         'title' => 'AKFO Launches Gender-Inclusive Campaign to Combat GBV',
-        'excerpt' => 'The foundation brought together attendees from Nairobi\'s 85 wards for training on GBV response, prevention, and survivor support — emphasizing the vital role of men as allies.',
+        'excerpt' => 'AKFO united Nairobi\'s 85 wards for GBV response training — emphasizing men as allies in prevention and survivor support.',
         'category' => 'Gender Equality',
         'date' => '2024-12-16',
         'image' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuA82dF8w5MitLB4ZmEfSVNkTAYujCK0HY1DuAoIuO016PSdjz4fxR-rnEOd6gt-_WZ-uUzgII3WPZsuQkXHfhaSZLlRFDcBkpMRxvT6edkgGnHeRw5lSwebDDjep7dYBTRmbKOYE36LNCEzZKGXRdYgq-s6WsYkfKCJDarw9Thd87cbTE-8gy2VFT9nPu3OTuYtiNlOXqfkfd24U-hFKevOFW1r8UFVBvCqGMOkWKK0Bhbnz6hAG-widA',

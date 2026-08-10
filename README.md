@@ -175,7 +175,10 @@ Supported forms:
 
 ```bash
 php scripts/smoke-test.php
+php scripts/seo-audit.php
 ```
+
+See **[SEO-CHECKLIST.md](SEO-CHECKLIST.md)** for the full pre-launch and production SEO workflow.
 
 ## Deployment Checklist
 

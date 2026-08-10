@@ -128,7 +128,7 @@ final class SeoService
 
     private function formatTitle(string $title, string $suffix): string
     {
-        if (str_contains($title, 'Agnes Kagure Foundation')) {
+        if (str_contains($title, 'Agnes Kagure Foundation') || str_contains($title, '|')) {
             return $title;
         }
 

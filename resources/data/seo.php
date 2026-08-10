@@ -42,8 +42,8 @@ return [
 
     'pages' => [
         '/' => [
-            'title' => 'Agnes Kagure Foundation | Turning Potentials into Possibilities',
-            'description' => 'The Agnes Kagure Foundation (AKFO) empowers Nairobi communities through education, GBV prevention, youth innovation hubs, scholarships, and health programmes. Donate or get involved today.',
+            'title' => 'AKFO | Turning Potentials into Possibilities',
+            'description' => 'Agnes Kagure Foundation empowers Nairobi through education, GBV prevention, youth hubs, scholarships, and health programmes. Donate or volunteer today.',
             'keywords' => 'Agnes Kagure Foundation, AKFO Kenya, Nairobi charity, donate, volunteer',
             'priority' => '1.0',
             'changefreq' => 'weekly',
@@ -52,7 +52,7 @@ return [
         ],
         '/about' => [
             'title' => 'About Us',
-            'description' => 'Learn about the Agnes Kagure Foundation — our mission, vision, founder Agnes Kagure, and commitment to transparent, community-led development in Nairobi and across Kenya.',
+            'description' => 'Learn about AKFO — our mission, vision, founder Agnes Kagure, and commitment to transparent, community-led development in Nairobi and Kenya.',
             'keywords' => 'About AKFO, Agnes Kagure, foundation mission, Nairobi NGO',
             'priority' => '0.9',
             'changefreq' => 'monthly',
@@ -60,7 +60,7 @@ return [
         ],
         '/programs' => [
             'title' => 'Our Programs',
-            'description' => 'Explore AKFO programmes: livelihoods, education & mentorship, gender equality & GBV response, health & nutrition, care for special groups, and innovation hubs in Nairobi.',
+            'description' => 'Explore AKFO programmes: livelihoods, education, gender equality & GBV response, health & nutrition, special groups care, and innovation hubs in Nairobi.',
             'keywords' => 'AKFO programs, education Kenya, GBV campaign Nairobi, youth mentorship',
             'priority' => '0.9',
             'changefreq' => 'monthly',
@@ -68,7 +68,7 @@ return [
         ],
         '/impact' => [
             'title' => 'Our Impact',
-            'description' => 'See how the Agnes Kagure Foundation transforms lives across Nairobi\'s 85 wards — impact stories, transparency reports, and community outcomes in education, health, and empowerment.',
+            'description' => 'See how AKFO transforms lives across Nairobi\'s 85 wards — impact stories, transparency reports, and outcomes in education, health, and empowerment.',
             'keywords' => 'AKFO impact, community impact Nairobi, foundation transparency',
             'priority' => '0.8',
             'changefreq' => 'weekly',
@@ -76,7 +76,7 @@ return [
         ],
         '/news' => [
             'title' => 'Stories of Change',
-            'description' => 'Latest news and impact stories from the Agnes Kagure Foundation — GBV campaigns, scholarships, youth strategy, community health partnerships, and welfare programmes in Kenya.',
+            'description' => 'Latest AKFO news — GBV campaigns, scholarships, youth strategy, community health partnerships, and welfare programmes across Kenya.',
             'keywords' => 'AKFO news, Kenya foundation stories, GBV Nairobi news',
             'priority' => '0.8',
             'changefreq' => 'daily',
@@ -92,7 +92,7 @@ return [
         ],
         '/contact' => [
             'title' => 'Contact Us',
-            'description' => 'Contact the Agnes Kagure Foundation at Aristocrats House, Nairobi. Call +254 111 927 044 or email info@akfo.org for partnerships, donations, and programme inquiries.',
+            'description' => 'Contact AKFO at Aristocrats House, Nairobi. Call +254 111 927 044 or email info@akfo.org for partnerships, donations, and programme inquiries.',
             'keywords' => 'contact AKFO, Agnes Kagure Foundation phone, info@akfo.org',
             'priority' => '0.8',
             'changefreq' => 'monthly',
@@ -125,7 +125,7 @@ return [
         ],
         '/gallery' => [
             'title' => 'Impact Gallery',
-            'description' => 'Photos and videos documenting community transformation through Agnes Kagure Foundation programmes — education, health, empowerment, and environmental restoration in Kenya.',
+            'description' => 'Photos and videos of community transformation through AKFO programmes — education, health, empowerment, and environmental restoration in Kenya.',
             'keywords' => 'AKFO gallery, foundation photos Kenya, impact stories visual',
             'priority' => '0.6',
             'changefreq' => 'monthly',

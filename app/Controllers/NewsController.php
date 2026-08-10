@@ -33,7 +33,7 @@ final class NewsController extends Controller
 
         return $this->render('news-show', [
             'article' => $article,
-            'pageTitle' => $article['title'] . ' | Agnes Kagure Foundation',
+            'pageTitle' => $article['title'] . ' | AKFO',
             'pageDescription' => $article['excerpt'],
             'pageImage' => $article['image'],
             'pageKeywords' => $article['category'] . ', AKFO news, Agnes Kagure Foundation, Kenya NGO',
