@@ -5,7 +5,7 @@
 <section class="relative min-h-[480px] md:h-[819px] akfo-hero akfo-hero--tall flex items-center overflow-hidden">
 <div class="absolute inset-0 z-0">
 <div class="absolute inset-0 bg-gradient-to-r from-primary/90 to-transparent z-10"></div>
-<img class="w-full h-full object-cover" data-alt="A warm, vibrant photo of diverse Kenyan volunteers in green foundation vests working together with children in a sunny community park in Nairobi. The lighting is soft, golden-hour style, emphasizing hope and human connection. The composition is wide, showing the scale of collective action in a lush, green environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKGo4b__XeexpJIOBxPRCU250ldCX_PTDv2mmbzvpgdRa2MpnnlwWMvQ3vf3HKfdH7rinn9BCIUyA30S7Fi9cxYMgg4rzhddy3j1_F5BynFfrSyzV5Btvvub0HiYqWt8l8HP06xnPrMqHGyOUmwBoFao7Fn93QbBogy_SQiAiRQ9WFUH3gW2aRX5btDBA4h0RAXKqXXglxgOJo08wDIIEg3nV5BsBt0vqu9b7-76R3vLcFNt3FuBx-Hw"/>
+<img class="w-full h-full object-cover" alt="A warm, vibrant photo of diverse Kenyan volunteers in green foundation vests working together with children in a sunny community park in Nairobi. The lighting is soft, golden-hour style, emphasizing hope and human connection. The composition is wide, showing the scale of collective action in a lush, green environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKGo4b__XeexpJIOBxPRCU250ldCX_PTDv2mmbzvpgdRa2MpnnlwWMvQ3vf3HKfdH7rinn9BCIUyA30S7Fi9cxYMgg4rzhddy3j1_F5BynFfrSyzV5Btvvub0HiYqWt8l8HP06xnPrMqHGyOUmwBoFao7Fn93QbBogy_SQiAiRQ9WFUH3gW2aRX5btDBA4h0RAXKqXXglxgOJo08wDIIEg3nV5BsBt0vqu9b7-76R3vLcFNt3FuBx-Hw"/>
 </div>
 <div class="relative z-20 px-margin-mobile md:px-gutter max-w-container-max mx-auto w-full">
 <div class="max-w-2xl">
@@ -138,7 +138,7 @@
 </div>
 <div class="bg-primary rounded-3xl overflow-hidden flex flex-col md:flex-row items-center">
 <div class="w-full md:w-1/2 h-64 md:h-auto">
-<img class="w-full h-full object-cover" data-alt="A professional, high-end photograph of a corporate partnership signing ceremony in a modern Nairobi office building with views of the city skyline. Representatives from different sectors—a woman in a business suit and a foundation leader in a traditional yet modern Kenyan ensemble—are shaking hands with genuine smiles. The lighting is crisp and professional, conveying trust and progress." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxb5nPzP2xWg80jq_CUutywzjFtnUOOS9AAlOisoIRBQbipDikjK9dY_dNm1Od60jjU5vQHjLsR0D_Hss2LKF4A4i7wZS0g7wQbMuBI9AbWpNY59pWBNv-fxdKTusPx9YKWdGc3_TYuWouUBCma1Jqvt1Gg6FSJSPdmsvMQSaoOgIJhyhaBRYCWRCDI-nq5it6XwVE3ZR7oG4EkogRKYCWbLhaYfQGrVzAOI2fTu5Gq22xNyMYbza9Jg"/>
+<img class="w-full h-full object-cover" alt="A professional, high-end photograph of a corporate partnership signing ceremony in a modern Nairobi office building with views of the city skyline. Representatives from different sectors—a woman in a business suit and a foundation leader in a traditional yet modern Kenyan ensemble—are shaking hands with genuine smiles. The lighting is crisp and professional, conveying trust and progress." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxb5nPzP2xWg80jq_CUutywzjFtnUOOS9AAlOisoIRBQbipDikjK9dY_dNm1Od60jjU5vQHjLsR0D_Hss2LKF4A4i7wZS0g7wQbMuBI9AbWpNY59pWBNv-fxdKTusPx9YKWdGc3_TYuWouUBCma1Jqvt1Gg6FSJSPdmsvMQSaoOgIJhyhaBRYCWRCDI-nq5it6XwVE3ZR7oG4EkogRKYCWbLhaYfQGrVzAOI2fTu5Gq22xNyMYbza9Jg"/>
 </div>
 <div class="p-stack-lg md:w-1/2 text-white">
 <h3 class="font-headline-lg text-headline-lg mb-6">Ready to Collaborate?</h3>

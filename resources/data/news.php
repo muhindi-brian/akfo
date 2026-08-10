@@ -15,7 +15,7 @@ return [
     [
         'slug' => 'community-health-promoters-gbv-partnership',
         'title' => 'Foundation Partners with Community Health Promoters to Support GBV Survivors',
-        'excerpt' => 'AKFO is working with Community Health Promoters to offer counseling, legal aid, and financial support so survivors can rebuild their lives and start small businesses.',
+        'excerpt' => 'AKFO partners with Community Health Promoters to offer counseling, legal aid, and financial support for GBV survivors rebuilding their lives.',
         'category' => 'Health',
         'date' => '2024-12-18',
         'image' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuCG-ne2LSey3GOEje9C-QHzg4IGPFmv4q3t0GwisI_FsqLGWW9YOl_1IyinDjJOwpRXC-fYf-z0n7w5wsM32luyGz4uOWUoTcA6Q_rB0pqUN1-6__4udym00EWBibMZQJymQfljL4zeyv8J8uULmY0NANywNLDENACq8oYcYaZHdV_bXSlSCklo_f7KiA77jYZOI5LctnnSjF7EqO-aasbjxEL1al2ZK3VV8SnKh0h22X9zYsynroyPPw',

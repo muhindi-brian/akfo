@@ -60,6 +60,11 @@ final class Router
         [$class, $action] = $handler;
         $controller = new $class();
         echo $controller->$action(...array_values($params));
+
+        // Apache often leaves 404 on rewritten front-controller requests; reset for SEO.
+        if (http_response_code() === 404) {
+            http_response_code(200);
+        }
     }
 
     private function normalize(string $path): string

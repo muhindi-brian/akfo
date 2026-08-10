@@ -9,12 +9,16 @@ declare(strict_types=1);
  * Usage:
  *   php scripts/seo-audit.php
  *   php scripts/seo-audit.php --json
+ *   php scripts/seo-audit.php --production
  */
 
 $base = dirname(__DIR__);
-$asJson = in_array('--json', $argv ?? [], true);
+$argv = $argv ?? [];
+$asJson = in_array('--json', $argv, true);
+$production = in_array('--production', $argv, true);
 $phpBin = PHP_BINARY;
 $basePath = '/stitch_agnes_kagure_foundation_portal';
+$productionBase = 'https://agneskagurefoundation.org';
 
 $paths = [
     '/',
@@ -37,13 +41,15 @@ $results = [];
 $issues = [];
 
 foreach ($paths as $path) {
-    $html = renderPath($phpBin, $base, $path, $basePath);
-    $results[$path] = analyseHtml($html, $path);
+    $html = $production
+        ? fetchUrl($productionBase . ($path === '/' ? '/' : $path))
+        : renderPath($phpBin, $base, $path, $basePath);
+    $results[$path] = analyseHtml($html, $path, $production);
 }
 
-$robots = renderPath($phpBin, $base, '/robots.txt', $basePath);
-$sitemap = renderPath($phpBin, $base, '/sitemap.xml', $basePath);
-$notFound = renderPath($phpBin, $base, '/missing-page', $basePath);
+$robots = $production ? fetchUrl($productionBase . '/robots.txt') : renderPath($phpBin, $base, '/robots.txt', $basePath);
+$sitemap = $production ? fetchUrl($productionBase . '/sitemap.xml') : renderPath($phpBin, $base, '/sitemap.xml', $basePath);
+$notFound = $production ? fetchUrl($productionBase . '/missing-page-test') : renderPath($phpBin, $base, '/missing-page', $basePath);
 
 $results['_robots'] = analyseRobots($robots);
 $results['_sitemap'] = analyseSitemap($sitemap);
@@ -59,12 +65,33 @@ foreach ($results as $path => $data) {
 }
 
 if ($asJson) {
-    echo json_encode(['pages' => $results, 'issues' => $issues], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    echo json_encode(['production' => $production, 'pages' => $results, 'issues' => $issues], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     exit($issues === [] ? 0 : 1);
 }
 
-printReport($results, $issues, $robots, $sitemap);
+printReport($results, $issues, $robots, $sitemap, $production);
 exit($issues === [] ? 0 : 1);
+
+function fetchUrl(string $url): string
+{
+    $context = stream_context_create([
+        'http' => [
+            'method' => 'GET',
+            'follow_location' => 1,
+            'max_redirects' => 5,
+            'timeout' => 20,
+            'header' => "User-Agent: AKFO-SEO-Audit/1.0\r\n",
+        ],
+        'ssl' => [
+            'verify_peer' => true,
+            'verify_peer_name' => true,
+        ],
+    ]);
+
+    $body = @file_get_contents($url, false, $context);
+
+    return is_string($body) ? $body : '';
+}
 
 function renderPath(string $phpBin, string $base, string $path, string $basePath): string
 {
@@ -91,9 +118,24 @@ PHP;
 }
 
 /** @return array<string, mixed> */
-function analyseHtml(string $html, string $path): array
+function analyseHtml(string $html, string $path, bool $production = false): array
 {
     $warnings = [];
+
+    if ($html === '') {
+        return [
+            'title' => '',
+            'title_len' => 0,
+            'description' => '',
+            'desc_len' => 0,
+            'canonical' => '',
+            'robots' => '',
+            'json_ld' => 0,
+            'h1' => 0,
+            'http_status' => 0,
+            'warnings' => ['Empty response body — page unreachable'],
+        ];
+    }
 
     preg_match('/<title>(.*?)<\/title>/s', $html, $titleMatch);
     preg_match('/<meta name="description" content="([^"]*)"/', $html, $descMatch);
@@ -159,6 +201,16 @@ function analyseHtml(string $html, string $path): array
         $warnings[] = 'Contains placeholder href="#" links';
     }
 
+    $imgCount = preg_match_all('/<img\b/i', $html);
+    $imgAltCount = preg_match_all('/<img[^>]*\salt=/i', $html);
+    if ($imgCount > 0 && $imgAltCount < $imgCount) {
+        $warnings[] = "{$imgCount} images but only {$imgAltCount} have alt text";
+    }
+
+    if ($production && $path !== '/missing-page-test' && !str_contains($html, 'en-KE')) {
+        $warnings[] = 'Production may be running an older build (missing lang=en-KE or latest SEO)';
+    }
+
     return [
         'title' => $title,
         'title_len' => $titleLen,
@@ -212,9 +264,9 @@ function analyseSitemap(string $xml): array
 }
 
 /** @param array<string, mixed> $results */
-function printReport(array $results, array $issues, string $robots, string $sitemap): void
+function printReport(array $results, array $issues, string $robots, string $sitemap, bool $production = false): void
 {
-    echo "AKFO SEO Audit\n";
+    echo "AKFO SEO Audit" . ($production ? ' (PRODUCTION)' : ' (LOCAL)') . "\n";
     echo str_repeat('=', 72) . "\n\n";
 
     echo sprintf(
