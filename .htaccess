@@ -26,6 +26,9 @@
     RewriteRule ^assets/(.*)$ public/assets/$1 [L]
     RewriteRule ^uploads/(.*)$ public/uploads/$1 [L]
 
+    # Legacy OG image path (older production builds referenced this file)
+    RewriteRule ^assets/images/og-default\.jpg$ https://lh3.googleusercontent.com/aida-public/AB6AXuDxgR5etkxQy5LPhfxL4Gdpw9351xUunl3e1fepaXI3nWaC9aB37DjDtXVmnsHCTK72jSID3KEN-VL511d9EAnirwUreX6X6aEdlTE78GemakVt49VZEJvzaqpgH_FG_d0UCrWJAPkyTsW0HNzxONbfGdTD78l51LSi4siHUKvCf6nC1-8sr5ZHjKMHs3TchK6UbYghOwhbgSuLcyK1d2Tz4slmR1wKgV-8nLIMGi_B6C6avNPw3ofIDg [R=302,L]
+
     # -------------------------------------------------------------------------
     # Block direct web access to application internals
     # -------------------------------------------------------------------------

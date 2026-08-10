@@ -41,19 +41,27 @@ $results = [];
 $issues = [];
 
 foreach ($paths as $path) {
-    $html = $production
-        ? fetchUrl($productionBase . ($path === '/' ? '/' : $path))
-        : renderPath($phpBin, $base, $path, $basePath);
-    $results[$path] = analyseHtml($html, $path, $production);
+    if ($production) {
+        $fetched = fetchUrlWithStatus($productionBase . ($path === '/' ? '/' : $path));
+        $html = $fetched['body'];
+        $httpStatus = (int) $fetched['status'];
+    } else {
+        $html = renderPath($phpBin, $base, $path, $basePath);
+        $httpStatus = 200;
+    }
+    $results[$path] = analyseHtml($html, $path, $production, $httpStatus);
 }
 
 $robots = $production ? fetchUrl($productionBase . '/robots.txt') : renderPath($phpBin, $base, '/robots.txt', $basePath);
 $sitemap = $production ? fetchUrl($productionBase . '/sitemap.xml') : renderPath($phpBin, $base, '/sitemap.xml', $basePath);
-$notFound = $production ? fetchUrl($productionBase . '/missing-page-test') : renderPath($phpBin, $base, '/missing-page', $basePath);
+$notFoundPath = '/this-page-does-not-exist-akfo';
+$notFound = $production
+    ? fetchUrlWithStatus($productionBase . $notFoundPath)
+    : ['body' => renderPath($phpBin, $base, '/missing-page', $basePath), 'status' => 404];
 
 $results['_robots'] = analyseRobots($robots);
 $results['_sitemap'] = analyseSitemap($sitemap);
-$results['_404'] = analyseHtml($notFound, '/missing-page');
+$results['_404'] = analyseHtml($notFound['body'], '/missing-page', $production, (int) $notFound['status']);
 
 foreach ($results as $path => $data) {
     if ($path === '_robots' || $path === '_sitemap') {
@@ -74,6 +82,33 @@ exit($issues === [] ? 0 : 1);
 
 function fetchUrl(string $url): string
 {
+    return fetchUrlWithStatus($url)['body'];
+}
+
+/** @return array{body: string, status: int} */
+function fetchUrlWithStatus(string $url): array
+{
+    if (function_exists('curl_init')) {
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_MAXREDIRS => 5,
+            CURLOPT_TIMEOUT => 20,
+            CURLOPT_USERAGENT => 'AKFO-SEO-Audit/1.0',
+            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_SSL_VERIFYHOST => 2,
+        ]);
+        $body = curl_exec($ch);
+        $status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        return [
+            'body' => is_string($body) ? $body : '',
+            'status' => $status,
+        ];
+    }
+
     $context = stream_context_create([
         'http' => [
             'method' => 'GET',
@@ -81,6 +116,7 @@ function fetchUrl(string $url): string
             'max_redirects' => 5,
             'timeout' => 20,
             'header' => "User-Agent: AKFO-SEO-Audit/1.0\r\n",
+            'ignore_errors' => true,
         ],
         'ssl' => [
             'verify_peer' => true,
@@ -89,8 +125,15 @@ function fetchUrl(string $url): string
     ]);
 
     $body = @file_get_contents($url, false, $context);
+    $status = 0;
+    if (isset($http_response_header[0]) && preg_match('/\s(\d{3})\s/', $http_response_header[0], $m)) {
+        $status = (int) $m[1];
+    }
 
-    return is_string($body) ? $body : '';
+    return [
+        'body' => is_string($body) ? $body : '',
+        'status' => $status,
+    ];
 }
 
 function renderPath(string $phpBin, string $base, string $path, string $basePath): string
@@ -118,7 +161,7 @@ PHP;
 }
 
 /** @return array<string, mixed> */
-function analyseHtml(string $html, string $path, bool $production = false): array
+function analyseHtml(string $html, string $path, bool $production = false, int $httpStatus = 200): array
 {
     $warnings = [];
 
@@ -132,9 +175,17 @@ function analyseHtml(string $html, string $path, bool $production = false): arra
             'robots' => '',
             'json_ld' => 0,
             'h1' => 0,
-            'http_status' => 0,
+            'http_status' => $httpStatus,
             'warnings' => ['Empty response body — page unreachable'],
         ];
+    }
+
+    if ($production && $path !== '/missing-page' && $httpStatus !== 200) {
+        $warnings[] = "HTTP {$httpStatus} (expected 200)";
+    }
+
+    if ($production && $path === '/missing-page' && $httpStatus !== 404) {
+        $warnings[] = "HTTP {$httpStatus} (expected 404 for missing page)";
     }
 
     preg_match('/<title>(.*?)<\/title>/s', $html, $titleMatch);
@@ -202,13 +253,9 @@ function analyseHtml(string $html, string $path, bool $production = false): arra
     }
 
     $imgCount = preg_match_all('/<img\b/i', $html);
-    $imgAltCount = preg_match_all('/<img[^>]*\salt=/i', $html);
+    $imgAltCount = preg_match_all('/<img\b[^>]*\balt\s*=\s*["\'][^"\']+["\']/i', $html);
     if ($imgCount > 0 && $imgAltCount < $imgCount) {
         $warnings[] = "{$imgCount} images but only {$imgAltCount} have alt text";
-    }
-
-    if ($production && $path !== '/missing-page-test' && !str_contains($html, 'en-KE')) {
-        $warnings[] = 'Production may be running an older build (missing lang=en-KE or latest SEO)';
     }
 
     return [
@@ -220,6 +267,7 @@ function analyseHtml(string $html, string $path, bool $production = false): arra
         'robots' => $robots,
         'json_ld' => $jsonLdCount,
         'h1' => $h1Count,
+        'http_status' => $httpStatus,
         'warnings' => $warnings,
     ];
 }
@@ -270,12 +318,13 @@ function printReport(array $results, array $issues, string $robots, string $site
     echo str_repeat('=', 72) . "\n\n";
 
     echo sprintf(
-        "%-28s %5s %5s %3s %3s %s\n",
+        "%-28s %5s %5s %3s %3s %4s %s\n",
         'PATH',
         'TITLE',
         'DESC',
         'LD',
         'H1',
+        'HTTP',
         'STATUS',
     );
     echo str_repeat('-', 72) . "\n";
@@ -286,12 +335,13 @@ function printReport(array $results, array $issues, string $robots, string $site
         }
         $status = $data['warnings'] === [] ? 'OK' : 'WARN';
         echo sprintf(
-            "%-28s %5d %5d %3d %3d %s\n",
+            "%-28s %5d %5d %3d %3d %4d %s\n",
             $path,
             $data['title_len'],
             $data['desc_len'],
             $data['json_ld'],
             $data['h1'],
+            $data['http_status'] ?? 0,
             $status,
         );
     }

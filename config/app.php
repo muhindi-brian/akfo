@@ -10,4 +10,6 @@ return [
     'timezone' => env('APP_TIMEZONE', 'Africa/Nairobi'),
     'locale' => env('APP_LOCALE', 'en'),
     'key' => env('APP_KEY', 'change-this-to-a-random-32-char-string'),
+    'google_site_verification' => env('GOOGLE_SITE_VERIFICATION', ''),
+    'bing_site_verification' => env('BING_SITE_VERIFICATION', ''),
 ];

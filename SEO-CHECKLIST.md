@@ -14,8 +14,12 @@
 | Local smoke + SEO audit | ✅ Passing |
 | Image `alt` / `aria-label` on views | ✅ Done |
 | HTTP 200 fix for Apache rewrites | ✅ Done (deploy required) |
-| Production `.env` on server | ⬜ **You** — use `.env.production.example` |
-| Redeploy latest code to production | ⬜ **Pending** — live site runs older build |
+| Deploy package script | ✅ `scripts/deploy-package.sh` |
+| Search verification meta tags | ✅ Ready (`GOOGLE_SITE_VERIFICATION`, `BING_SITE_VERIFICATION`) |
+| Legacy `og-default.jpg` redirect | ✅ Done in `.htaccess` |
+| Production automated SEO audit | ✅ Passing (`php scripts/seo-audit.php --production`) |
+| Production `.env` on server | ⬜ **You** — confirm `.env` matches `.env.production.example` |
+| Redeploy after future code changes | Use `bash scripts/deploy-package.sh` |
 | Cloudflare SSL (Full / Full strict) | ⬜ **You** — check dashboard |
 | Google Search Console | ⬜ **You** |
 | Bing Webmaster Tools | ⬜ **You** |
@@ -31,8 +35,14 @@
 php scripts/smoke-test.php
 php scripts/seo-audit.php
 
-# Production — after deploy (checks live HTML)
+# Production — after deploy (checks live HTML + HTTP status)
 php scripts/seo-audit.php --production
+
+# Build upload zip for cPanel
+bash scripts/deploy-package.sh
+
+# Full post-deploy verification
+bash scripts/post-deploy-verify.sh
 ```
 
 ---
@@ -68,8 +78,11 @@ php scripts/seo-audit.php --production
 ### Tooling
 - [x] `scripts/smoke-test.php` — route health check
 - [x] `scripts/seo-audit.php` — local meta/schema audit
-- [x] `scripts/seo-audit.php --production` — live site audit
-- [x] `.env.production.example` — copy to server as `.env`
+- [x] `scripts/seo-audit.php --production` — live site audit (HTTP status + meta)
+- [x] `scripts/deploy-package.sh` — creates `dist/akfo-portal-deploy-latest.zip`
+- [x] `scripts/post-deploy-verify.sh` — smoke + production SEO audit
+- [x] `.env.production.example` — copy to server as `.env` (includes sample `APP_KEY`)
+- [x] Google/Bing verification meta tags via env vars
 
 ### Local environment
 - [x] Local `.env` configured for XAMPP subdirectory
@@ -78,27 +91,23 @@ php scripts/seo-audit.php --production
 
 ---
 
-## ⬜ To do (manual / production)
+## ⬜ To do (manual — search engines & performance)
 
-### 1. Deploy to production — **priority**
+### 1. Production environment (confirm once)
 
-Production currently serves an **older build** (old titles, missing JSON-LD, HTTP 404 status on pages). Redeploy the full project:
+Automated SEO checks **pass on live site** (HTTP 200, meta, schema, sitemap). Confirm server config:
 
-- [ ] Upload all files (including `.htaccess`, `public/assets/`, `app/`, `resources/`)
-- [ ] Copy `.env.production.example` → `.env` on server and set `APP_KEY`:
-  ```bash
-  openssl rand -hex 16
-  ```
-- [ ] Set `APP_URL=https://agneskagurefoundation.org`
-- [ ] Set `APP_DEBUG=false`
-- [ ] Ensure `storage/` is writable (`chmod 775 storage storage/logs storage/messages`)
-- [ ] Confirm document root points to **project root** (where root `index.php` lives)
-- [ ] Run after deploy:
-  ```bash
-  php scripts/seo-audit.php --production
-  ```
+- [ ] `.env` on server has `APP_URL=https://agneskagurefoundation.org` and `APP_DEBUG=false`
+- [ ] `storage/` writable (`chmod 775 storage storage/logs storage/messages`)
+- [ ] Document root = project root (where root `index.php` lives)
 
-**Expected after deploy:** homepage returns HTTP **200**, title starts with `AKFO |`, canonical uses `agneskagurefoundation.org`, `/sitemap.xml` returns XML.
+**Future deploys:**
+
+```bash
+bash scripts/deploy-package.sh
+# Upload dist/akfo-portal-deploy-latest.zip → cPanel extract → purge Cloudflare cache
+bash scripts/post-deploy-verify.sh
+```
 
 ### 2. Cloudflare
 
@@ -109,7 +118,9 @@ Production currently serves an **older build** (old titles, missing JSON-LD, HTT
 ### 3. Google Search Console
 
 - [ ] Add property: `https://agneskagurefoundation.org`
-- [ ] Verify via DNS TXT (recommended on Cloudflare)
+- [ ] Verify via DNS TXT (recommended on Cloudflare) **or** HTML meta tag:
+  - Copy verification code into server `.env`: `GOOGLE_SITE_VERIFICATION=your-code-here`
+  - Redeploy / purge cache; confirm meta tag appears in page source
 - [ ] Submit sitemap: `https://agneskagurefoundation.org/sitemap.xml`
 - [ ] Request indexing:
 
@@ -128,6 +139,7 @@ Production currently serves an **older build** (old titles, missing JSON-LD, HTT
 
 - [ ] Register at [bing.com/webmasters](https://www.bing.com/webmasters)
 - [ ] Import from Google Search Console or verify manually
+- [ ] Optional: set `BING_SITE_VERIFICATION=your-code` in production `.env`
 - [ ] Submit sitemap URL
 
 ### 5. Social sharing
@@ -165,9 +177,9 @@ Deploy
 [ ] storage/ writable
 
 Post-deploy
-[ ] php scripts/seo-audit.php --production
-[ ] Homepage HTTP 200 (not 404)
-[ ] /robots.txt and /sitemap.xml reachable
+[x] php scripts/seo-audit.php --production  (passing on live site)
+[x] Homepage HTTP 200 (not 404)
+[x] /robots.txt and /sitemap.xml reachable
 [ ] Rich Results Test on homepage
 [ ] Search Console sitemap submitted (first time only)
 [ ] Facebook Debugger scrape
@@ -225,6 +237,8 @@ News: `/news/{slug}` — `resources/data/news.php`
 | Meta tags | `resources/views/components/seo-head.php` |
 | Sitemap & robots | `app/Controllers/SeoController.php` |
 | Production env template | `.env.production.example` |
+| Deploy zip builder | `scripts/deploy-package.sh` |
+| Post-deploy checks | `scripts/post-deploy-verify.sh` |
 | Local audit | `scripts/seo-audit.php` |
 | Production audit | `scripts/seo-audit.php --production` |
 

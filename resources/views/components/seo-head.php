@@ -31,6 +31,13 @@ $seoDefaults = data('seo')['defaults'];
 <link rel="apple-touch-icon" href="<?= asset('images/favicon.svg') ?>"/>
 <meta name="theme-color" content="#1B4332"/>
 
+<?php if (($googleVerification = config('app.google_site_verification')) !== ''): ?>
+<meta name="google-site-verification" content="<?= e($googleVerification) ?>"/>
+<?php endif; ?>
+<?php if (($bingVerification = config('app.bing_site_verification')) !== ''): ?>
+<meta name="msvalidate.01" content="<?= e($bingVerification) ?>"/>
+<?php endif; ?>
+
 <meta property="og:locale" content="<?= e(str_replace('-', '_', $seoDefaults['language'])) ?>"/>
 <meta property="og:type" content="<?= e($pageOgType) ?>"/>
 <meta property="og:site_name" content="<?= e($seoDefaults['site_name']) ?>"/>

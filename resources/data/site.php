@@ -20,7 +20,7 @@ return [
     'support_email' => 'info@akfo.org',
     'phone' => '+254 111 927 044',
     'phone_secondary' => '',
-    'website' => 'https://akfo.org',
+    'website' => 'https://agneskagurefoundation.org',
     'address' => [
         'line1' => 'Aristocrats House',
         'line2' => 'Nairobi',
