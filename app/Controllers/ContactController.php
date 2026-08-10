@@ -12,8 +12,6 @@ final class ContactController extends Controller
     public function index(): string
     {
         return $this->render('contact', [
-            'pageTitle' => 'Contact Us | Agnes Kagure Foundation',
-            'pageDescription' => 'Contact the Agnes Kagure Foundation at Aristocrats House, Nairobi. Call +254 111 927 044 or email info@akfo.org for partnerships and program inquiries.',
             'pageImage' => data('contact')['hero']['image'],
             'contact' => data('contact'),
             'errors' => flash('errors') ?? [],

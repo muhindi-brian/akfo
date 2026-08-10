@@ -4,18 +4,23 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Services\SeoService;
+
 abstract class Controller
 {
     protected function render(string $view, array $data = []): string
     {
+        $currentPath = request_path();
+        $seo = (new SeoService())->resolve($currentPath, $data);
+
         $defaults = [
             'site' => data('site'),
             'navigation' => data('navigation'),
-            'currentPath' => parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/',
+            'currentPath' => $currentPath,
         ];
 
-        return View::render('layouts/main', array_merge($defaults, $data, [
-            'content' => View::render('pages/' . $view, array_merge($defaults, $data)),
+        return View::render('layouts/main', array_merge($defaults, $data, $seo, [
+            'content' => View::render('pages/' . $view, array_merge($defaults, $data, $seo)),
         ]));
     }
 

@@ -12,8 +12,6 @@ final class PartnersController extends Controller
     public function index(): string
     {
         return $this->render('partners', [
-            'pageTitle' => 'Partners & Alliances | Agnes Kagure Foundation',
-            'pageDescription' => 'Partner with the Agnes Kagure Foundation to drive systemic change through strategic alliances and collaborative development.',
             'errors' => flash('errors') ?? [],
             'success' => (bool) flash('success'),
         ]);

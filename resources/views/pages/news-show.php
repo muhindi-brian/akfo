@@ -3,6 +3,15 @@
 ?>
 <section class="py-section-padding px-margin-mobile md:px-gutter max-w-container-max mx-auto">
     <article class="max-w-3xl mx-auto">
+        <nav aria-label="Breadcrumb" class="mb-8">
+            <ol class="flex flex-wrap items-center gap-2 text-sm text-on-surface-variant">
+                <li><a href="<?= url('/') ?>" class="hover:text-primary transition-colors">Home</a></li>
+                <li aria-hidden="true">/</li>
+                <li><a href="<?= url('/news') ?>" class="hover:text-primary transition-colors">Stories</a></li>
+                <li aria-hidden="true">/</li>
+                <li class="text-primary font-label-bold" aria-current="page"><?= e($article['title']) ?></li>
+            </ol>
+        </nav>
         <a href="<?= url('/news') ?>" class="inline-flex items-center gap-2 text-primary font-label-bold mb-8 hover:gap-3 transition-all">
             <span class="material-symbols-outlined">arrow_back</span> Back to Stories
         </a>

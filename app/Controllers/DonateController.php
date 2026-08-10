@@ -12,8 +12,6 @@ final class DonateController extends Controller
     public function index(): string
     {
         return $this->render('donate', [
-            'pageTitle' => 'Donate | Agnes Kagure Foundation',
-            'pageDescription' => 'Support the Agnes Kagure Foundation with a secure donation that fuels education, healthcare, and community empowerment programs.',
             'errors' => flash('errors') ?? [],
             'success' => (bool) flash('success'),
         ]);

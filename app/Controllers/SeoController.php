@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Services\SeoService;
 
 final class SeoController extends Controller
 {
@@ -18,8 +19,11 @@ final class SeoController extends Controller
             'Disallow: /storage/',
             'Disallow: /config/',
             'Disallow: /app/',
+            'Disallow: /resources/',
+            'Disallow: /routes/',
+            'Disallow: /scripts/',
             '',
-            'Sitemap: ' . url('/sitemap.xml'),
+            'Sitemap: ' . absolute_url('/sitemap.xml'),
         ];
 
         return implode("\n", $lines);
@@ -29,33 +33,17 @@ final class SeoController extends Controller
     {
         header('Content-Type: application/xml; charset=UTF-8');
 
-        $paths = [
-            '/',
-            '/about',
-            '/programs',
-            '/impact',
-            '/news',
-            '/partners',
-            '/contact',
-            '/donate',
-            '/get-involved',
-            '/events',
-            '/gallery',
-            '/privacy',
-            '/terms',
-        ];
-
-        foreach (data('news') as $article) {
-            $paths[] = '/news/' . $article['slug'];
-        }
+        $entries = (new SeoService())->sitemapEntries();
 
         $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
-        foreach ($paths as $path) {
+        foreach ($entries as $entry) {
             $xml .= "  <url>\n";
-            $xml .= '    <loc>' . e(url(ltrim($path, '/'))) . "</loc>\n";
-            $xml .= '    <changefreq>weekly</changefreq>' . "\n";
+            $xml .= '    <loc>' . htmlspecialchars($entry['loc'], ENT_XML1) . "</loc>\n";
+            $xml .= '    <lastmod>' . htmlspecialchars($entry['lastmod'], ENT_XML1) . "</lastmod>\n";
+            $xml .= '    <changefreq>' . htmlspecialchars($entry['changefreq'], ENT_XML1) . "</changefreq>\n";
+            $xml .= '    <priority>' . htmlspecialchars($entry['priority'], ENT_XML1) . "</priority>\n";
             $xml .= "  </url>\n";
         }
 

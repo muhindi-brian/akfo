@@ -12,8 +12,6 @@ final class GetInvolvedController extends Controller
     public function index(): string
     {
         return $this->render('get-involved', [
-            'pageTitle' => 'Get Involved | Agnes Kagure Foundation',
-            'pageDescription' => 'Volunteer, partner, and join the movement for sustainable community development with the Agnes Kagure Foundation.',
             'errors' => flash('errors') ?? [],
             'success' => (bool) flash('success'),
         ]);

@@ -10,9 +10,6 @@ final class ProgramsController extends Controller
 {
     public function index(): string
     {
-        return $this->render('programs', [
-            'pageTitle' => 'Our Programs | Agnes Kagure Foundation',
-            'pageDescription' => 'Explore transformative programs in education, healthcare, women empowerment, youth development, and economic empowerment across Kenya.',
-        ]);
+        return $this->render('programs');
     }
 }

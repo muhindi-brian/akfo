@@ -11,8 +11,6 @@ final class NewsController extends Controller
     public function index(): string
     {
         return $this->render('news', [
-            'pageTitle' => 'Stories of Change | Agnes Kagure Foundation',
-            'pageDescription' => 'Read news, impact stories, and updates from the Agnes Kagure Foundation across Kenya.',
             'articles' => data('news'),
         ]);
     }
@@ -34,10 +32,11 @@ final class NewsController extends Controller
         }
 
         return $this->render('news-show', [
+            'article' => $article,
             'pageTitle' => $article['title'] . ' | Agnes Kagure Foundation',
             'pageDescription' => $article['excerpt'],
             'pageImage' => $article['image'],
-            'article' => $article,
+            'pageKeywords' => $article['category'] . ', AKFO news, Agnes Kagure Foundation, Kenya NGO',
         ]);
     }
 }

@@ -48,6 +48,27 @@ function url(string $path = ''): string
     return $base . $path;
 }
 
+function absolute_url(string $path): string
+{
+    if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+        return $path;
+    }
+
+    return url($path);
+}
+
+function request_path(): string
+{
+    $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+    $scriptName = dirname($_SERVER['SCRIPT_NAME'] ?? '');
+
+    if ($scriptName !== '/' && $scriptName !== '\\' && str_starts_with($uri, $scriptName)) {
+        $uri = substr($uri, strlen($scriptName)) ?: '/';
+    }
+
+    return $uri === '' ? '/' : $uri;
+}
+
 function asset(string $path): string
 {
     return url('assets/' . ltrim($path, '/'));

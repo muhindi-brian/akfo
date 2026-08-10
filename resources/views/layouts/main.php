@@ -1,41 +1,7 @@
-<?php
-
-declare(strict_types=1);
-
-/** @var string $content */
-/** @var string $pageTitle */
-/** @var string $pageDescription */
-/** @var string|null $pageImage */
-/** @var array|null $pageStyles */
-/** @var array|null $pageScripts */
-/** @var array $site */
-/** @var array $navigation */
-/** @var string $currentPath */
-
-$pageTitle = $pageTitle ?? $site['name'];
-$pageDescription = $pageDescription ?? $site['description'];
-$pageImage = $pageImage ?? asset('images/og-default.jpg');
-$canonical = url(ltrim($currentPath, '/') ?: '/');
-$pageStyles = $pageStyles ?? [];
-$pageScripts = $pageScripts ?? [];
-?>
 <!DOCTYPE html>
-<html class="scroll-smooth" lang="en">
+<html class="scroll-smooth" lang="en-KE">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-    <title><?= e($pageTitle) ?></title>
-    <meta name="description" content="<?= e($pageDescription) ?>"/>
-    <link rel="canonical" href="<?= e($canonical) ?>"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="<?= e($pageTitle) ?>"/>
-    <meta property="og:description" content="<?= e($pageDescription) ?>"/>
-    <meta property="og:url" content="<?= e($canonical) ?>"/>
-    <meta property="og:image" content="<?= e($pageImage) ?>"/>
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:title" content="<?= e($pageTitle) ?>"/>
-    <meta name="twitter:description" content="<?= e($pageDescription) ?>"/>
-    <meta name="twitter:image" content="<?= e($pageImage) ?>"/>
+    <?= view('components.seo-head', get_defined_vars()) ?>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -46,7 +12,7 @@ $pageScripts = $pageScripts ?? [];
     <link rel="stylesheet" href="<?= asset('css/navigation.css') ?>"/>
     <link rel="stylesheet" href="<?= asset('css/responsive.css') ?>"/>
     <link rel="stylesheet" href="<?= asset('css/motion.css') ?>"/>
-    <?php foreach ($pageStyles as $style): ?>
+    <?php foreach (($pageStyles ?? []) as $style): ?>
         <link rel="stylesheet" href="<?= asset('css/pages/' . $style) ?>"/>
     <?php endforeach; ?>
     <script id="tailwind-config">
@@ -107,7 +73,7 @@ $pageScripts = $pageScripts ?? [];
 <?= view('components.footer', compact('site', 'navigation')) ?>
 
 <script src="<?= asset('js/main.js') ?>" defer></script>
-<?php foreach ($pageScripts as $script): ?>
+<?php foreach (($pageScripts ?? []) as $script): ?>
     <script src="<?= asset('js/' . $script) ?>" defer></script>
 <?php endforeach; ?>
 </body>
